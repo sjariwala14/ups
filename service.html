@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Business Proposal - UPS Innovation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --secondary: #6c757d;
+            --success: #198754;
+            --info: #0dcaf0;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --canon-blue: #005baa;
+            --canon-light: #e8f4ff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--canon-blue) 0%, #003a6d 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 5px solid var(--warning);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .ceo-name {
+            font-weight: 700;
+            color: var(--warning);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-tabs .nav-link {
+            font-weight: 600;
+            color: var(--dark);
+            padding: 0.8rem 1.2rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background-color: var(--canon-blue);
+            color: white;
+            border: none;
+        }
+        
+        .section-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, var(--canon-blue), #2c7bbe);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 700;
+            padding: 1rem 1.5rem;
+        }
+        
+        .key-point {
+            border-left: 4px solid var(--canon-blue);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .financial-table th {
+            background-color: var(--canon-blue);
+            color: white;
+        }
+        
+        .revenue-model {
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--canon-light);
+            border-left: 4px solid var(--success);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin: 2rem 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--canon-blue);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--warning);
+            border: 4px solid var(--canon-blue);
+        }
+        
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .interactive-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .positive-value {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .negative-value {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .revenue-model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .revenue-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--canon-blue);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .revenue-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .revenue-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--canon-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        #pdf-container {
+            padding: 20px;
+            background: white;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header h3 {
+                font-size: 1.2rem;
+            }
+            
+            .revenue-model-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header text-center">
+        <div class="container">
+            <div class="logo-container">
+                <i class="fas fa-bolt fa-4x me-3"></i>
+                <div>
+                    <h1 class="fw-bold">Strategic Business Proposal</h1>
+                    <h3>UPS Innovation & Revenue Enablement Roadmap</h3>
+                </div>
+            </div>
+            <h4 class="ceo-name">CHIEF EXECUTIVE OFFICER (CEO) OF BUSINESS INNOVATION AND TRANSFORMATIONS</h4>
+            <h4 class="ceo-name">SHAILENDRAKUMAR SHASHIKANT JARIWALA</h4>
+            <p class="lead">Q2-Q3 2025 Strategic Execution Plan</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-tabs mb-4 justify-content-center" id="proposalTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="executive-tab" data-bs-toggle="tab" data-bs-target="#executive" type="button" role="tab">Executive Summary</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="technical-tab" data-bs-toggle="tab" data-bs-target="#technical" type="button" role="tab">Technical Overview</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="financial-tab" data-bs-toggle="tab" data-bs-target="#financial" type="button" role="tab">Financial Models</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="roadmap-tab" data-bs-toggle="tab" data-bs-target="#roadmap" type="button" role="tab">Execution Roadmap</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="nextsteps-tab" data-bs-toggle="tab" data-bs-target="#nextsteps" type="button" role="tab">Next Steps</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="proposalTabsContent">
+            <!-- Executive Summary Tab -->
+            <div class="tab-pane fade show active" id="executive" role="tabpanel">
+                <div class="section-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line me-2"></i>Executive Summary</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">This strategic proposal outlines a comprehensive roadmap for UPS business innovation, revenue enablement, and market expansion for Q2-Q3 2025.</p>
+                        
+                        <div class="key-point">
+                            <h5>Primary Objective</h5>
+                            <p>Build a future-ready, monetizable, and scalable UPS ecosystem with a hybrid revenue model, enhanced partner/vendor involvement, customer-centric features, and data-driven growth.</p>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-bullseye fa-3x text-primary mb-3"></i>
+                                        <h5>Core Focus Areas</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Website Modernization & Digital Marketplace</li>
+                                            <li class="list-group-item">Sales Enablement for Engineering Teams</li>
+                                            <li class="list-group-item">Structured Education & Certification Programs</li>
+                                            <li class="list-group-item">Technical & Commercial Roadmap (2025-2027)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-money-bill-wave fa-3x text-success mb-3"></i>
+                                        <h5>Revenue Streams</h5>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">Subscription-Based Service Plans</li>
+                                            <li class="list-group-item">Freemium DIY Tools & Checklists</li>
+                                            <li class="list-group-item">Certified Vendor Partner Program</li>
+                                            <li class="list-group-item">Data Analytics as a Service</li>
+                                            <li class="list-group-item">White-Labeled UPS Solutions</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Overview Tab -->
+            <div class="tab-pane fade" id="technical" role="tabpanel">
+                <div class="section-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-microchip me-2"></i>Technical Specifications: 3 kVA UPS</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Typical Uses of a 3 kVA UPS</h5>
+                                <ul class="list-group mb-4">
+                                    <li class="list-group-item">Small to Medium Server Rooms</li>
+                                    <li class="list-group-item">Medical Equipment</li>
+                                    <li class="list-group-item">Telecom Equipment</li>
+                                    <li class="list-group-item">Industrial Control Systems</li>
+                                    <li class="list-group-item">Point-of-Sale (POS) Systems</li>
+                                    <li class="list-group-item">Workstations & High-End Desktops</li>
+                                    <li class="list-group-item">Small Lab Setups or Test Benches</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Key Specifications</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>Parameter</th>
+                                            <th>Value</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Output Power</td>
+                                            <td>3000 VA (~2400 W usable)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Backup Time</td>
+                                            <td>5 to 30 minutes (depending on load)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Topology</td>
+                                            <td>Online double conversion</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Voltage Regulation</td>
+                                            <td>Stable output during sags/surges</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Potential Failure Points & Mitigation Strategies</h5>
+                        <div class="accordion" id="failureAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#failure1">
+                                        Battery Failure
+                                    </button>
+                                </h2>
+                                <div id="failure1" class="accordion-collapse collapse show" data-bs-parent="#failureAccordion">
+                                    <div class="accordion-body">
+                                        <strong>Causes:</strong> Aging batteries, poor ventilation, heat, lack of maintenance<br>
+                                        <strong>Impact:</strong> UPS won't provide backup during outage<br>
+                                        <strong>Fix:</strong> Regular testing, replacement every 3-5 years, environmental monitoring
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#failure2">
+                                        Overload Condition
+                                    </button>
+                                </h2>
+                                <div id="failure2" class="accordion-collapse collapse" data-bs-parent="#failureAccordion">
+                                    <div class="accordion-body">
+                                        <strong>Causes:</strong> Connecting too many devices beyond rated capacity<br>
+                                        <strong>Impact:</strong> UPS may shut down or bypass battery protection<br>
+                                        <strong>Fix:</strong> Monitor load levels; never exceed 80-90% of rated output
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#failure3">
+                                        Overheating
+                                    </button>
+                                </h2>
+                                <div id="failure3" class="accordion-collapse collapse" data-bs-parent="#failureAccordion">
+                                    <div class="accordion-body">
+                                        <strong>Causes:</strong> Dust buildup, poor airflow, high ambient temperature<br>
+                                        <strong>Impact:</strong> Thermal shutdown or reduced UPS lifespan<br>
+                                        <strong>Fix:</strong> Clean vents, keep in cool room, follow installation clearances
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Technology Upgrade Recommendations</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>Battery Upgrade</h6>
+                                        <p>Switch from Lead-Acid to 48V LiFePO₄ Battery Pack</p>
+                                        <ul>
+                                            <li>Cycle Life: >2,000-3,000 cycles (vs 500-700)</li>
+                                            <li>Charge Efficiency: 95-98% (vs 70-80%)</li>
+                                            <li>Weight: ~45-55 kg total (vs 200+ kg)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>Inverter Upgrade</h6>
+                                        <p>High-Frequency Transformerless Design with DSP Control</p>
+                                        <ul>
+                                            <li>Efficiency: 92-95%+ (vs 85-88%)</li>
+                                            <li>Compact and lightweight design</li>
+                                            <li>Advanced protection features</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Models Tab -->
+            <div class="tab-pane fade" id="financial" role="tabpanel">
+                <div class="section-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-coins me-2"></i>Financial Models & Revenue Streams</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Cost Comparison: Traditional vs Upgraded UPS Design</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Component Category</th>
+                                        <th>Traditional UPS (Lead-Acid, Analog)</th>
+                                        <th>Upgraded Smart UPS (LiFePO₄, Digital)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Battery Pack</td>
+                                        <td>₹45,000 – ₹60,000</td>
+                                        <td>₹80,000 – ₹90,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Inverter Power Stage</td>
+                                        <td>₹10,000 – ₹12,000</td>
+                                        <td>₹15,000 – ₹22,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Controller + Logic</td>
+                                        <td>₹1,000 – ₹1,500</td>
+                                        <td>₹2,000 – ₹3,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grid Interface & Charger</td>
+                                        <td>₹2,000 – ₹3,000</td>
+                                        <td>₹3,000 – ₹4,500</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Display & UI</td>
+                                        <td>₹500 – ₹1,000</td>
+                                        <td>₹800 – ₹1,500</td>
+                                    </tr>
+                                    <tr class="table-success">
+                                        <td><strong>Total Cost</strong></td>
+                                        <td><strong>₹65,000 – ₹88,000</strong></td>
+                                        <td><strong>₹1,07,000 – ₹1,30,000</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="mt-5">Advantage Comparison</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Advantage</th>
+                                        <th>Traditional UPS</th>
+                                        <th>Upgraded Smart UPS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CapEx (Initial Cost)</td>
+                                        <td class="positive-value">✅ Lower</td>
+                                        <td class="negative-value">❌ Higher</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Energy Efficiency</td>
+                                        <td class="negative-value">❌ Low (85–88%)</td>
+                                        <td class="positive-value">✅ High (93–95%)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Battery Life</td>
+                                        <td class="negative-value">❌ 2–3 years</td>
+                                        <td class="positive-value">✅ 7–10 years</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size & Weight</td>
+                                        <td class="negative-value">❌ Heavy (200kg+)</td>
+                                        <td class="positive-value">✅ Compact (90–100kg)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Features</td>
+                                        <td class="negative-value">❌ Basic</td>
+                                        <td class="positive-value">✅ Smart + Remote Ready</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Resale/Lease Potential</td>
+                                        <td class="negative-value">❌ Low</td>
+                                        <td class="positive-value">✅ High</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="mt-5">Complete Revenue Models</h5>
+                        <div class="revenue-model-grid">
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 1</div>
+                                <h6>Site Assessment Tool</h6>
+                                <p>Build MVP (web/app) with target of 12% increase in premium config sales</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Build MVP</span>
+                                    <span class="badge bg-success">Q3: Launch & Conversion</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 2</div>
+                                <h6>Digital Marketplace</h6>
+                                <p>Finalize UI/UX & Web3 integration with target of ₹50L from vendor commissions</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Finalize UI/UX</span>
+                                    <span class="badge bg-success">Q3: Pilot with 10 vendors</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 3</div>
+                                <h6>Sales Engineering Incentives</h6>
+                                <p>Define KPIs & training with target of 20% repeat purchase lift</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Define KPIs</span>
+                                    <span class="badge bg-success">Q3: Implement + CRM Link</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 4</div>
+                                <h6>Technical Planning</h6>
+                                <p>Launch 90-day MVP sprint model with 15% faster go-to-market</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Launch 90-day MVP</span>
+                                    <span class="badge bg-success">Q3: Post-mortem + Strategy</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 5</div>
+                                <h6>Structured Education</h6>
+                                <p>Start paid pilot sessions with target of ₹5L per month recurring</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Start paid pilot</span>
+                                    <span class="badge bg-success">Q3: Expand modules</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 6</div>
+                                <h6>Subscription Plans</h6>
+                                <p>Design 3-tier model with goal of ₹10L MRR by Q4</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Design 3-tier model</span>
+                                    <span class="badge bg-success">Q3: Go live with NFC alerts</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 7</div>
+                                <h6>DIY Tools (Freemium)</h6>
+                                <p>Add export/report features with target of ₹2L per month upsell</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Add export features</span>
+                                    <span class="badge bg-success">Q3: Upsell advanced features</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 8</div>
+                                <h6>Certified Partner Program</h6>
+                                <p>Finalize structure with target of ₹15L onboarding/commission fees</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Finalize structure</span>
+                                    <span class="badge bg-success">Q3: Enroll 25 vendors</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 9</div>
+                                <h6>Data Analytics as a Service</h6>
+                                <p>Start collecting anonymized data with target of ₹20L/year from insights</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Start data collection</span>
+                                    <span class="badge bg-success">Q3: Design enterprise dashboard</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 10</div>
+                                <h6>OEM White-Labeling</h6>
+                                <p>Identify regional partners with target of ₹1Cr OEM deals</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Identify partners</span>
+                                    <span class="badge bg-success">Q3: Sign 2 OEMs</span>
+                                </div>
+                            </div>
+                            
+                            <div class="revenue-card">
+                                <div class="revenue-number">Model 11</div>
+                                <h6>Certification Academy</h6>
+                                <p>Finalize curriculum with target of ₹3L/quarter from certifications</p>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Q2: Finalize curriculum</span>
+                                    <span class="badge bg-success">Q3: Launch paid certification</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Execution Roadmap Tab -->
+            <div class="tab-pane fade" id="roadmap" role="tabpanel">
+                <div class="section-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-road me-2"></i>Strategic Execution Roadmap</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Q2-Q4 2025 Timeline</h5>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <h6>Q2 Analysis (Apr–Jun 2025)</h6>
+                                <ul>
+                                    <li>Site assessment tool beta launch & feedback</li>
+                                    <li>DIY tools trial downloads vs. premium conversion</li>
+                                    <li>NFC/SNMP data monitoring pipeline readiness</li>
+                                    <li>Vendor onboarding velocity (target: 10+)</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-item">
+                                <h6>Q3 Analysis (Jul–Sep 2025)</h6>
+                                <ul>
+                                    <li>Throughput scale vs. backlog reduction</li>
+                                    <li>Subscription plan revenue vs. free-tier engagement</li>
+                                    <li>Recycled product pilot cost-benefit metrics</li>
+                                    <li>Sales engineering influence on Q2–Q3 deals</li>
+                                </ul>
+                            </div>
+                            <div class="timeline-item">
+                                <h6>Q4 Analysis (Oct–Dec 2025)</h6>
+                                <ul>
+                                    <li>Customer churn vs. new retention tools</li>
+                                    <li>Adoption of value-added services by OEMs</li>
+                                    <li>Cross-vertical growth (e.g., telecom vs. industrial)</li>
+                                    <li>Contribution of analytics dashboards to renewals</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-5">New Strategic Initiatives</h5>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-tachometer-alt fa-2x text-primary mb-3"></i>
+                                        <h6>Increase Throughput</h6>
+                                        <p>Optimize supply chain and assembly processes to scale production by 2–3x by Q3 2025</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-recycle fa-2x text-success mb-3"></i>
+                                        <h6>Recycle the Product</h6>
+                                        <p>Develop a take-back and recycling program targeting institutional customers and large installers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-user-check fa-2x text-info mb-3"></i>
+                                        <h6>Create Value for the Consumer</h6>
+                                        <p>Launch feature-rich, self-service tools (e.g., smart diagnostics, power-saving insights)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-5">Risk Areas & Mitigation</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Risk Area</th>
+                                        <th>Status</th>
+                                        <th>Mitigation Strategy</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>No formalized OEM sales channels</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>Identify regional partners for Model 10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marketplace UI/UX lacks vendor-side features</td>
+                                        <td><span class="badge bg-danger">Critical</span></td>
+                                        <td>Finalize UI/UX & Web3 integration in Q2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Recycle program lacks regulatory clarity</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>Conduct regulatory review in Q2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data privacy framework for analytics sales</td>
+                                        <td><span class="badge bg-info">Under Review</span></td>
+                                        <td>Complete framework by Q3 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Limited visibility into ROI from internal education</td>
+                                        <td><span class="badge bg-warning">Monitoring</span></td>
+                                        <td>Implement tracking metrics for Model 5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps Tab -->
+            <div class="tab-pane fade" id="nextsteps" role="tabpanel">
+                <div class="section-card card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-forward me-2"></i>Next Steps & Action Plan</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Immediate Actions (Q2 2025)</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h6>Budget Allocation & Governance</h6>
+                                        <ul>
+                                            <li>Allocate ₹2Cr for product R&D, platform upgrades, and GTM</li>
+                                            <li>Set up cross-functional team for roadmap governance and KPI tracking</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>Launch Task Forces</h6>
+                                        <ul>
+                                            <li>DIY Product Lead (Checklist + Freemium roadmap)</li>
+                                            <li>Subscription Manager (NFC/SNMP integration)</li>
+                                            <li>OEM Business Development Lead</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5>Partner & Vendor Enablement</h5>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <ul>
+                                    <li>Finalize vendor onboarding terms, certification fees, and marketplace UI</li>
+                                    <li>Begin local + global outreach for vendor/partner sign-ups</li>
+                                    <li>Establish performance-based incentives for partner ecosystem</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h5>ROI Dashboard Setup</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <ul>
+                                    <li>Define tracking metrics across all revenue models</li>
+                                    <li>Run monthly reviews with insights team for course correction</li>
+                                    <li>Establish baseline metrics for Q2 2025 performance comparison</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button id="downloadPdf" class="btn btn-lg btn-primary interactive-btn me-3"><i class="fas fa-download me-2"></i>Download Full Proposal (PDF)</button>
+                            <button class="btn btn-lg btn-success interactive-btn"><i class="fas fa-calendar-check me-2"></i>Schedule Review Meeting</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Container (hidden) -->
+    <div id="pdf-container">
+        <h1 class="text-center">Strategic Business Proposal</h1>
+        <h3 class="text-center">UPS Innovation & Revenue Enablement Roadmap</h3>
+        <h4 class="text-center">CHIEF EXECUTIVE OFFICER (CEO) OF BUSINESS INNOVATION AND TRANSFORMATIONS</h4>
+        <h4 class="text-center">SHAILENDRAKUMAR SHASHIKANT JARIWALA</h4>
+        <p class="text-center">Q2-Q3 2025 Strategic Execution Plan</p>
+        
+        <div class="mt-5">
+            <h2>Executive Summary</h2>
+            <p>This strategic proposal outlines a comprehensive roadmap for UPS business innovation, revenue enablement, and market expansion for Q2-Q3 2025.</p>
+            
+            <h3>Primary Objective</h3>
+            <p>Build a future-ready, monetizable, and scalable UPS ecosystem with a hybrid revenue model, enhanced partner/vendor involvement, customer-centric features, and data-driven growth.</p>
+            
+            <h3>Core Focus Areas</h3>
+            <ul>
+                <li>Website Modernization & Digital Marketplace</li>
+                <li>Sales Enablement for Engineering Teams</li>
+                <li>Structured Education & Certification Programs</li>
+                <li>Technical & Commercial Roadmap (2025-2027)</li>
+            </ul>
+            
+            <h3>Revenue Streams</h3>
+            <ul>
+                <li>Subscription-Based Service Plans</li>
+                <li>Freemium DIY Tools & Checklists</li>
+                <li>Certified Vendor Partner Program</li>
+                <li>Data Analytics as a Service</li>
+                <li>White-Labeled UPS Solutions</li>
+            </ul>
+        </div>
+        
+        <!-- Additional content for the PDF would go here -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>Strategic Business Proposal for UPS Innovation & Revenue Enablement</p>
+            <p>Prepared for: Shailendrakumar Shashikant Jariwala, CEO of Business Innovation and Transformations</p>
+            <p>© 2025 Canon Medical UPS Division. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to section cards when they come into view
+            const cards = document.querySelectorAll('.section-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // PDF download functionality
+            const downloadBtn = document.getElementById('downloadPdf');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    // Show generating message
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating PDF...';
+                    
+                    // Create a clone of the content to convert to PDF
+                    const element = document.getElementById('pdf-container');
+                    
+                    // Set PDF options
+                    const options = {
+                        margin: 10,
+                        filename: 'Strategic_Execution_Plan_UPS_Q2_Q3_2025.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    };
+                    
+                    // Generate and download PDF
+                    html2pdf().set(options).from(element).save().finally(() => {
+                        // Reset button text
+                        this.innerHTML = '<i class="fas fa-download me-2"></i>Download Full Proposal (PDF)';
+                    });
+                });
+            }
+            
+            // Schedule meeting button
+            const scheduleBtn = document.querySelector('.btn-success');
+            if (scheduleBtn) {
+                scheduleBtn.addEventListener('click', function() {
+                    alert('Thank you for your interest! Please email us at contact@canonmedical.com to schedule a review meeting.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
