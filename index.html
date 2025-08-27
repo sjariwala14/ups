@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPS Business Proposal - GE Power Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            background: white;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--primary);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        
+        .nav-links {
+            list-style: none;
+            padding: 20px;
+        }
+        
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+        
+        .nav-links a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-links a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            font-size: 28px;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 30px;
+            width: 300px;
+        }
+        
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 5px;
+        }
+        
+        /* Content Sections */
+        .section {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-header h2 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .section-content {
+            display: block;
+        }
+        
+        .collapsed .section-content {
+            display: none;
+        }
+        
+        .section-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Ratings */
+        .rating {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        /* SWOT Grid */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .swot-item {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .strengths {
+            background: #e8f5e9;
+            border-left: 5px solid var(--success);
+        }
+        
+        .weaknesses {
+            background: #ffebee;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .opportunities {
+            background: #e3f2fd;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .threats {
+            background: #fff8e1;
+            border-left: 5px solid var(--warning);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar, .search-box, .action-buttons {
+                display: none;
+            }
+            
+            .container {
+                display: block;
+                box-shadow: none;
+            }
+            
+            .section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                max-height: none;
+            }
+            
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-bolt fa-3x" style="color: #e74c3c;"></i>
+                <h1>GE Power Tech</h1>
+                <p>Business Proposal</p>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#executive-summary" class="active"><i class="fas fa-home"></i> Executive Summary</a></li>
+                <li><a href="#market-analysis"><i class="fas fa-chart-line"></i> Market Analysis</a></li>
+                <li><a href="#competitive-analysis"><i class="fas fa-balance-scale"></i> Competitive Analysis</a></li>
+                <li><a href="#swot-analysis"><i class="fas fa-clipboard-list"></i> SWOT Analysis</a></li>
+                <li><a href="#strategic-recommendations"><i class="fas fa-chess-knight"></i> Strategic Recommendations</a></li>
+                <li><a href="#implementation-plan"><i class="fas fa-tasks"></i> Implementation Plan</a></li>
+                <li><a href="#financials"><i class="fas fa-dollar-sign"></i> Financial Projections</a></li>
+                <li><a href="#appendix"><i class="fas fa-file-alt"></i> Appendix</a></li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>UPS Business Proposal</h1>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search proposal..." id="searchInput">
+                </div>
+            </div>
+            
+            <!-- Executive Summary Section -->
+            <div class="section" id="executive-summary">
+                <div class="section-header">
+                    <h2><i class="fas fa-home"></i> Executive Summary</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <p>This proposal outlines a comprehensive business strategy for <strong>Ganga Enterprises (GE Power Tech)</strong> to enhance its competitiveness in the Mumbai and Thane UPS market. With the increasing demand for reliable power solutions driven by data center expansion and power reliability concerns, GE Power Tech is well-positioned to capture market share through strategic initiatives.</p>
+                    
+                    <div class="highlight-box" style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <h3 style="color: #2c3e50; margin-bottom: 15px;">Key Proposal Highlights</h3>
+                        <ul style="list-style-type: none;">
+                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #27ae60;"></i> Market analysis of Mumbai's UPS sector and key competitors</li>
+                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #27ae60;"></i> Detailed SWOT analysis and competitive benchmarking</li>
+                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #27ae60;"></i> Strategic recommendations for growth and market expansion</li>
+                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #27ae60;"></i> Implementation plan with timelines and resource allocation</li>
+                            <li><i class="fas fa-check-circle" style="color: #27ae60;"></i> Financial projections and profitability improvement strategies</li>
+                        </ul>
+                    </div>
+                    
+                    <p>The proposal includes a phased implementation plan, organizational structure recommendations, and financial projections to guide GE Power Tech toward market leadership in the UPS sector.</p>
+                </div>
+            </div>
+            
+            <!-- Market Analysis Section -->
+            <div class="section" id="market-analysis">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Market Analysis</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <p>The Uninterruptible Power Supply (UPS) market in Mumbai is robust and expanding, driven by the city's status as a financial and commercial hub. The increasing reliance on data centers, telecommunications, healthcare facilities, and industrial operations necessitates reliable power solutions.</p>
+                    
+                    <h3>Key Market Drivers</h3>
+                    <ul>
+                        <li><strong>Data Center Expansion:</strong> Mumbai commands approximately 35% of India's data center market share</li>
+                        <li><strong>Power Reliability Concerns:</strong> Frequent power outages and voltage fluctuations in India have heightened the need for efficient UPS systems</li>
+                    </ul>
+                    
+                    <h3>Market Trends</h3>
+                    <p>There is a growing shift towards energy-efficient and modular UPS systems in Mumbai. These systems offer scalability and cost-effectiveness, allowing businesses to manage operational costs while ensuring resilience.</p>
+                    
+                    <h3>Local UPS Dealers and Service Providers</h3>
+                    <p>Mumbai hosts numerous UPS dealers and service providers catering to diverse power backup needs:</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Company</th>
+                            <th>Specialization</th>
+                            <th>Key Features</th>
+                        </tr>
+                        <tr>
+                            <td>Costa Power Industries Pvt. Ltd.</td>
+                            <td>UPS supplier and manufacturer</td>
+                            <td>Online and industrial UPS solutions, repair services, AMC</td>
+                        </tr>
+                        <tr>
+                            <td>Sycom Power Protection Pvt. Ltd.</td>
+                            <td>Numeric UPS dealer</td>
+                            <td>Customizable UPS systems, front-end access, remote operation</td>
+                        </tr>
+                        <tr>
+                            <td>UPS Express Pvt. Ltd.</td>
+                            <td>UPS service provider</td>
+                            <td>Multiple locations across Mumbai</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Competitive Analysis Section -->
+            <div class="section" id="competitive-analysis">
+                <div class="section-header">
+                    <h2><i class="fas fa-balance-scale"></i> Competitive Analysis</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <p>Mumbai and Thane host several prominent UPS dealers, each offering unique strengths to cater to diverse power backup needs. The following table provides a competitive benchmarking of key players:</p>
+                    
+                    <table>
+                        <tr>
+                            <th>Factor</th>
+                            <th>Ganga Enterprises</th>
+                            <th>Costa Power Industries</th>
+                            <th>Sycom Power Protection</th>
+                        </tr>
+                        <tr>
+                            <td>Product Range</td>
+                            <td>UPS, stabilizers, inverters, batteries</td>
+                            <td>Diverse solutions for server rooms, data centers</td>
+                            <td>Distributes top brands like Emerson, Numeric, APC</td>
+                        </tr>
+                        <tr>
+                            <td>Customization & Scalability</td>
+                            <td>3-150 kVA, industry-specific solutions</td>
+                            <td>End-to-end power solutions & customized services</td>
+                            <td>Strong network & multi-brand availability</td>
+                        </tr>
+                        <tr>
+                            <td>Quality & Reliability</td>
+                            <td>Follows international standards, modern tech</td>
+                            <td>High-quality industrial UPS & service contracts</td>
+                            <td>Trusted distributor of reputed brands</td>
+                        </tr>
+                        <tr>
+                            <td>After-Sales Support & AMC</td>
+                            <td>Offers AMC for multiple brands, strong after-sales</td>
+                            <td>UPS repair, AMC, preventive maintenance</td>
+                            <td>AMC services, multi-brand UPS servicing</td>
+                        </tr>
+                        <tr>
+                            <td>Overall Rating</td>
+                            <td><span class="rating">7.5-8/10</span></td>
+                            <td><span class="rating">8-8.5/10</span></td>
+                            <td><span class="rating">8-8.5/10</span></td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Key Takeaways</h3>
+                    <ul>
+                        <li><strong>Costa Power Industries & Sycom Power Protection</strong> have a slight edge due to their broader reach and established reputation</li>
+                        <li><strong>Ganga Enterprises</strong> is a strong competitor, especially for customized power backup solutions, but is relatively newer</li>
+                        <li>Opportunity exists for GE Power Tech to differentiate through specialized offerings and superior customer service</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- SWOT Analysis Section -->
+            <div class="section" id="swot-analysis">
+                <div class="section-header">
+                    <h2><i class="fas fa-clipboard-list"></i> SWOT Analysis</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <p>A comprehensive SWOT analysis for Ganga Enterprises (GE Power Tech) reveals the following:</p>
+                    
+                    <div class="swot-grid">
+                        <div class="swot-item strengths">
+                            <h3><i class="fas fa-plus-circle"></i> Strengths</h3>
+                            <ul>
+                                <li>Diverse product portfolio (UPS, stabilizers, inverters, batteries)</li>
+                                <li>Customization & scalability (3 kVA to 150 kVA range)</li>
+                                <li>Quality assurance adhering to international standards</li>
+                                <li>Experienced leadership with technical expertise</li>
+                                <li>Strong after-sales support and AMC services</li>
+                                <li>Cost-effective solutions with competitive pricing</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="swot-item weaknesses">
+                            <h3><i class="fas fa-minus-circle"></i> Weaknesses</h3>
+                            <ul>
+                                <li>Limited brand recognition compared to industry giants</li>
+                                <li>Dependence on third-party batteries</li>
+                                <li>Limited geographic reach (primarily Mumbai and Thane)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="swot-item opportunities">
+                            <h3><i class="fas fa-arrow-up"></i> Opportunities</h3>
+                            <ul>
+                                <li>Rising demand for power backup solutions in India</li>
+                                <li>Expansion into renewable energy and solar integration</li>
+                                <li>Growth in IT & cloud infrastructure</li>
+                                <li>Strategic partnerships with top battery manufacturers</li>
+                                <li>E-commerce & digital marketing for improved visibility</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="swot-item threats">
+                            <h3><i class="fas fa-exclamation-circle"></i> Threats</h3>
+                            <ul>
+                                <li>Intense competition from established brands</li>
+                                <li>Fluctuations in raw material prices</li>
+                                <li>Regulatory & compliance changes</li>
+                                <li>Technological disruptions in battery technologies</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Strategic Recommendations Section -->
+            <div class="section" id="strategic-recommendations">
+                <div class="section-header">
+                    <h2><i class="fas fa-chess-knight"></i> Strategic Recommendations</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <h3>1. Strengthen Brand Positioning & Market Awareness</h3>
+                    <ul>
+                        <li>Position GE Power Tech as a leader in efficient, durable, and customized UPS solutions</li>
+                        <li>Emphasize cost-effectiveness, reliability, and energy efficiency compared to competitors</li>
+                        <li>Leverage digital marketing and SEO to increase online visibility</li>
+                        <li>Secure ISO 9001 and ISO 14001 certifications for enhanced credibility</li>
+                    </ul>
+                    
+                    <h3>2. Product Innovation & Technological Advancements</h3>
+                    <ul>
+                        <li>Invest in developing IoT-enabled UPS systems with remote monitoring</li>
+                        <li>Transition to Lithium-Ion battery technology for longer lifespans</li>
+                        <li>Develop hybrid UPS systems that integrate solar power capabilities</li>
+                        <li>Create industry-specific solutions for healthcare, data centers, and manufacturing</li>
+                    </ul>
+                    
+                    <h3>3. Geographic Expansion & Distribution Network</h3>
+                    <ul>
+                        <li>Establish regional sales and service centers in Pune, Bangalore, Hyderabad, and Chennai</li>
+                        <li>Collaborate with local electrical contractors and facility management firms</li>
+                        <li>Develop B2B and OEM partnerships with hospitals, IT firms, and manufacturing plants</li>
+                        <li>Expand online presence through e-commerce platforms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Implementation Plan Section -->
+            <div class="section" id="implementation-plan">
+                <div class="section-header">
+                    <h2><i class="fas fa-tasks"></i> Implementation Plan</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <h3>Phase 1: Brand Awareness & Digital Presence (Months 1-3)</h3>
+                    <ul>
+                        <li>Develop strong brand messaging and positioning</li>
+                        <li>Update website with detailed product descriptions and case studies</li>
+                        <li>Implement SEO optimization and targeted digital advertising</li>
+                        <li>List products on e-commerce and B2B platforms</li>
+                        <li>Publish customer testimonials and success stories</li>
+                    </ul>
+                    
+                    <h3>Phase 2: Product Innovation & Service Expansion (Months 4-6)</h3>
+                    <ul>
+                        <li>Launch Smart UPS Solutions with IoT & Remote Monitoring</li>
+                        <li>Expand into Lithium-Ion & Solar UPS systems</li>
+                        <li>Develop industry-specific solutions</li>
+                        <li>Strengthen after-sales support and AMC programs</li>
+                        <li>Expand dealer and distributor network</li>
+                    </ul>
+                    
+                    <h3>Phase 3: Market Expansion & Partnerships (Months 7-9)</h3>
+                    <ul>
+                        <li>Strengthen presence in Tier-1 & Tier-2 cities</li>
+                        <li>Explore export markets in Southeast Asia, Middle East, and Africa</li>
+                        <li>Partner with real estate developers for pre-installed UPS solutions</li>
+                        <li>Form alliances with solar energy companies</li>
+                        <li>Offer flexible financing options for customers</li>
+                    </ul>
+                    
+                    <h3>Phase 4: Competitive Edge & Industry Leadership (Months 10-12)</h3>
+                    <ul>
+                        <li>Launch customer loyalty and referral programs</li>
+                        <li>Set up Innovation Lab for R&D</li>
+                        <li>Participate in industry exhibitions and trade fairs</li>
+                        <li>Apply for certifications and government tenders</li>
+                        <li>Publish whitepapers and expert insights</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Financial Projections Section -->
+            <div class="section" id="financials">
+                <div class="section-header">
+                    <h2><i class="fas fa-dollar-sign"></i> Financial Projections</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <h3>Revenue Growth Factors</h3>
+                    <table>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Low Estimate</th>
+                            <th>High Estimate</th>
+                        </tr>
+                        <tr>
+                            <td>Market Expansion</td>
+                            <td>5-10% growth</td>
+                            <td>15-30% growth</td>
+                        </tr>
+                        <tr>
+                            <td>Revenue Diversification</td>
+                            <td>10-20% growth</td>
+                            <td>20-50% growth</td>
+                        </tr>
+                        <tr>
+                            <td>Cost Optimization</td>
+                            <td>5-10% improved margins</td>
+                            <td>10-15% improved margins</td>
+                        </tr>
+                        <tr>
+                            <td>Customer Retention</td>
+                            <td>5-15% revenue growth</td>
+                            <td>15-25% revenue growth</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Estimated Budget Requirements</h3>
+                    <table>
+                        <tr>
+                            <th>Area</th>
+                            <th>Low Estimate (₹)</th>
+                            <th>High Estimate (₹)</th>
+                        </tr>
+                        <tr>
+                            <td>Marketing & Branding</td>
+                            <td>50,00,000</td>
+                            <td>80,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>Product Development</td>
+                            <td>1,20,00,000</td>
+                            <td>2,00,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>Geographic Expansion</td>
+                            <td>80,00,000</td>
+                            <td>1,50,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>Team Expansion</td>
+                            <td>60,00,000</td>
+                            <td>1,00,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>Technology Infrastructure</td>
+                            <td>40,00,000</td>
+                            <td>70,00,000</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Expected ROI</h3>
+                    <p>Based on successful implementation of strategies, the expected Return on Investment ranges from <strong>19% to 85%</strong>, with revenue growth potential of <strong>50% to 135%</strong> over the next year.</p>
+                </div>
+            </div>
+            
+            <!-- Appendix Section -->
+            <div class="section" id="appendix">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-alt"></i> Appendix</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content">
+                    <h3>Key Personnel</h3>
+                    <ul>
+                        <li><strong>Abhijeet Soni</strong> - Director of Strategic Initiatives and Business Strategy</li>
+                        <li><strong>Shailendrakumar Shashikant Jariwala</strong> - Chief Executive Officer (CEO) of Business Innovation and Transformations</li>
+                        <li><strong>Mr. Nicklesh Kumar</strong> - Founder of Ganga Enterprises</li>
+                    </ul>
+                    
+                    <h3>Document History</h3>
+                    <table>
+                        <tr>
+                            <th>Version</th>
+                            <th>Date</th>
+                            <th>Changes</th>
+                        </tr>
+                        <tr>
+                            <td>v2</td>
+                            <td>05 March 2025</td>
+                            <td>Final version with complete strategic recommendations</td>
+                        </tr>
+                        <tr>
+                            <td>v1</td>
+                            <td>15 February 2025</td>
+                            <td>Initial draft</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Related Documents</h3>
+                    <ul>
+                        <li><a href="#">Detailed Market Research Report</a></li>
+                        <li><a href="#">Product Development Roadmap</a></li>
+                        <li><a href="#">Organizational Structure Plan</a></li>
+                        <li><a href="#">Financial Projections Spreadsheet</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download"></i> Download PDF</button>
+                <button class="btn btn-secondary" id="printBtn"><i class="fas fa-print"></i> Print Proposal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle section collapse
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const section = header.parentElement;
+                section.classList.toggle('collapsed');
+                
+                const icon = header.querySelector('.fa-chevron-down');
+                if (section.classList.contains('collapsed')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                } else {
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                }
+            });
+        });
+        
+        // Simple navigation active state
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    // Collapse all sections
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.add('collapsed');
+                        const icon = section.querySelector('.section-header .fa-chevron-down');
+                        if (icon) {
+                            icon.classList.remove('fa-chevron-down');
+                            icon.classList.add('fa-chevron-right');
+                        }
+                    });
+                    
+                    // Expand target section
+                    targetSection.classList.remove('collapsed');
+                    const targetIcon = targetSection.querySelector('.section-header .fa-chevron-right');
+                    if (targetIcon) {
+                        targetIcon.classList.remove('fa-chevron-right');
+                        targetIcon.classList.add('fa-chevron-down');
+                    }
+                    
+                    // Scroll to target section
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Simple search functionality
+        const searchInput = document.querySelector('#searchInput');
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.style.display = 'block';
+                    const sectionHeader = section.querySelector('.section-header h2');
+                    sectionHeader.innerHTML = sectionHeader.textContent;
+                });
+                return;
+            }
+            
+            document.querySelectorAll('.section').forEach(section => {
+                const sectionText = section.textContent.toLowerCase();
+                const sectionHeader = section.querySelector('.section-header h2');
+                
+                if (sectionText.includes(searchTerm)) {
+                    section.style.display = 'block';
+                    
+                    // Highlight the term in the section header
+                    if (searchTerm && sectionHeader && sectionText.includes(searchTerm)) {
+                        const regex = new RegExp(searchTerm, 'gi');
+                        sectionHeader.innerHTML = sectionHeader.textContent.replace(regex, match => 
+                            `<span style="background-color: yellow;">${match}</span>`
+                        );
+                    }
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+        
+        // Print functionality
+        document.getElementById('printBtn').addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Download functionality (simulated)
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            alert('PDF download would start here. In a real implementation, this would generate and download a PDF version.');
+        });
+        
+        // Progress bar
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+        
+        // Expand first section by default
+        document.querySelector('.section').classList.remove('collapsed');
+    </script>
+</body>
+</html>
