@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Models Impact & Risk Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #ffb800;
+            --danger: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            color: #333;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .revenue-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+            border: none;
+            margin-bottom: 20px;
+        }
+        
+        .revenue-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            font-weight: 600;
+            background-color: white;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .progress {
+            height: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .quarter-tag {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            background-color: #e9ecef;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .q2-tag {
+            background-color: #ffeeba;
+            color: #856404;
+        }
+        
+        .q3-tag {
+            background-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .target-badge {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .filter-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-box {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .stats-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stats-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .model-status {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .status-planning {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        
+        .status-progress {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .impact-high {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .impact-medium {
+            border-left: 4px solid #ffc107;
+        }
+        
+        .impact-low {
+            border-left: 4px solid #28a745;
+        }
+        
+        .model-details {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0 0 5px 5px;
+            margin-top: 0.5rem;
+        }
+        
+        .toggle-details {
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .priority-high {
+            background-color: #ffcccc;
+        }
+        
+        .priority-medium {
+            background-color: #fff6cc;
+        }
+        
+        .priority-low {
+            background-color: #ddffdd;
+        }
+        
+        .risk-section {
+            background-color: #fff3f3;
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .mitigation-section {
+            background-color: #f0fff4;
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+        
+        .risk-tag {
+            background-color: var(--danger);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .mitigation-tag {
+            background-color: var(--success);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--dark);
+        }
+        
+        .tab-content {
+            padding: 1rem;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .medium-risk {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .low-risk {
+            background-color: var(--success);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1><i class="fas fa-chart-line me-2"></i>Revenue Models Impact & Risk Analysis</h1>
+                    <p class="lead">Track, analyze, and optimize your revenue streams with risk assessment</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-light"><i class="fas fa-download me-1"></i> Export Report</button>
+                        <button class="btn btn-light"><i class="fas fa-sync-alt me-1"></i> Refresh Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Summary Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="stats-box">
+                    <div class="stats-value">₹2.36Cr</div>
+                    <div class="stats-label">Total Annual Revenue Target</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stats-box">
+                    <div class="stats-value">11</div>
+                    <div class="stats-label">Revenue Models</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stats-box">
+                    <div class="stats-value">7</div>
+                    <div class="stats-label">High Risk Models</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="stats-box">
+                    <div class="stats-value">84%</div>
+                    <div class="stats-label">Overall Mitigation Coverage</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-section">
+            <div class="row">
+                <div class="col-md-3 mb-2">
+                    <label for="quarterFilter" class="form-label">Filter by Quarter:</label>
+                    <select class="form-select" id="quarterFilter">
+                        <option value="all">All Quarters</option>
+                        <option value="q2">Q2 Initiatives</option>
+                        <option value="q3">Q3 Initiatives</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="statusFilter" class="form-label">Filter by Status:</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="all">All Status</option>
+                        <option value="planning">Planning</option>
+                        <option value="progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="riskFilter" class="form-label">Filter by Risk Level:</label>
+                    <select class="form-select" id="riskFilter">
+                        <option value="all">All Risk Levels</option>
+                        <option value="high">High Risk</option>
+                        <option value="medium">Medium Risk</option>
+                        <option value="low">Low Risk</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label for="searchModel" class="form-label">Search Models:</label>
+                    <input type="text" class="form-control" id="searchModel" placeholder="Enter model name...">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Models List -->
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3>Revenue Models</h3>
+                    <span id="modelCount" class="badge bg-primary">11 Models</span>
+                </div>
+
+                <div id="modelsContainer">
+                    <!-- Model 1 -->
+                    <div class="card revenue-card mb-3 impact-high">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 1: Site Assessment Tool</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Build MVP (web/app) with target of 12% increase in premium config sales</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Build MVP</span>
+                                <span class="quarter-tag q3-tag">Q3: Launch & Conversion</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: 12% sales increase</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model1-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model1-overview-tab" data-bs-toggle="pill" data-bs-target="#model1-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model1-risk-tab" data-bs-toggle="pill" data-bs-target="#model1-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model1-tabContent">
+                                    <div class="tab-pane fade show active" id="model1-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Expected to increase premium configuration sales by 12%</li>
+                                            <li>Will help qualify leads better and improve conversion rates</li>
+                                            <li>Requires initial investment in development but has low ongoing costs</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Development team: 3 members for 2 months</li>
+                                            <li>Budget: ₹8L for development and testing</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 40%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model1-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Technical complexity:</strong> Integration with existing systems may be more complex than anticipated</li>
+                                                <li><strong>Adoption challenges:</strong> Sales team may resist using new tool without proper training</li>
+                                                <li><strong>Data accuracy:</strong> Assessment recommendations may not be accurate enough to drive sales</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Conduct thorough technical assessment before development begins</li>
+                                                <li>Involve sales team in design process and provide comprehensive training</li>
+                                                <li>Implement phased rollout with continuous feedback collection</li>
+                                                <li>Build analytics to measure tool effectiveness and iterate quickly</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 70% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 2 -->
+                    <div class="card revenue-card mb-3 impact-high">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 2: Digital Marketplace</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Finalize UI/UX & Web3 integration with target of ₹50L from vendor commissions</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Finalize UI/UX</span>
+                                <span class="quarter-tag q3-tag">Q3: Pilot with 10 vendors</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹50L vendor commissions</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model2-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model2-overview-tab" data-bs-toggle="pill" data-bs-target="#model2-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model2-risk-tab" data-bs-toggle="pill" data-bs-target="#model2-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model2-tabContent">
+                                    <div class="tab-pane fade show active" id="model2-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Expected to generate ₹50L in vendor commissions in first year</li>
+                                            <li>Web3 integration will provide competitive advantage</li>
+                                            <li>Marketplace model has high scalability potential</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>UI/UX designer: 1 month</li>
+                                            <li>Blockchain developer: 2 months</li>
+                                            <li>Budget: ₹12L for development and vendor onboarding</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 30%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model2-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Vendor acquisition:</strong> Difficulty attracting enough vendors to the platform</li>
+                                                <li><strong>Web3 complexity:</strong> Blockchain integration may introduce technical challenges</li>
+                                                <li><strong>Marketplace liquidity:</strong> Chicken-and-egg problem of attracting both buyers and sellers</li>
+                                                <li><strong>Regulatory compliance:</strong> Potential legal issues with Web3 and marketplace transactions</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Develop aggressive vendor onboarding program with incentives</li>
+                                                <li>Partner with established Web3 providers to reduce technical risk</li>
+                                                <li>Seed marketplace with initial transactions to boost liquidity</li>
+                                                <li>Consult legal experts early to ensure regulatory compliance</li>
+                                                <li>Implement phased rollout starting with limited geographic area</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 65% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 3 -->
+                    <div class="card revenue-card mb-3 impact-medium">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 3: Sales Engineering Incentives</span>
+                            <div>
+                                <span class="model-status status-planning">Planning</span>
+                                <span class="risk-tag medium-risk">Medium Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Define KPIs & training with target of 20% repeat purchase lift</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Define KPIs</span>
+                                <span class="quarter-tag q3-tag">Q3: Implement + CRM Link</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: 20% repeat purchase lift</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model3-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model3-overview-tab" data-bs-toggle="pill" data-bs-target="#model3-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model3-risk-tab" data-bs-toggle="pill" data-bs-target="#model3-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model3-tabContent">
+                                    <div class="tab-pane fade show active" id="model3-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Expected to increase customer retention and repeat purchases</li>
+                                            <li>Better aligned sales incentives can improve overall revenue</li>
+                                            <li>Low implementation cost with potential for high ROI</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>HR and Sales coordination</li>
+                                            <li>CRM customization: 2 weeks</li>
+                                            <li>Budget: ₹2L for incentive program</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 15%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model3-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Resistance to change:</strong> Sales team may resist new incentive structure</li>
+                                                <li><strong>Unintended consequences:</strong> Incentives might encourage wrong behaviors</li>
+                                                <li><strong>Measurement challenges:</strong> Difficulty accurately tracking repeat purchases</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Involve sales team in designing incentive structure</li>
+                                                <li>Pilot program with volunteer team members first</li>
+                                                <li>Implement balanced scorecard approach to prevent gaming</li>
+                                                <li>Invest in CRM enhancements to improve tracking accuracy</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 80% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 4 -->
+                    <div class="card revenue-card mb-3 impact-medium">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 4: Technical Planning</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag medium-risk">Medium Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Launch 90-day MVP sprint model with 15% faster go-to-market</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Launch 90-day MVP</span>
+                                <span class="quarter-tag q3-tag">Q3: Post-mortem + Strategy</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: 15% faster go-to-market</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model4-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model4-overview-tab" data-bs-toggle="pill" data-bs-target="#model4-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model4-risk-tab" data-bs-toggle="pill" data-bs-target="#model4-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model4-tabContent">
+                                    <div class="tab-pane fade show active" id="model4-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Faster product iteration and time to market</li>
+                                            <li>Improved efficiency in development processes</li>
+                                            <li>Will reduce development costs by optimizing resources</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Project management team</li>
+                                            <li>Development process overhaul</li>
+                                            <li>Budget: ₹5L for training and tools</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 60%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model4-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Team adaptation:</strong> Development team may struggle with new processes</li>
+                                                <li><strong>Quality concerns:</strong> Faster development might compromise quality</li>
+                                                <li><strong>Resource allocation:</strong> May require temporary increase in resources</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Provide comprehensive training and support during transition</li>
+                                                <li>Implement rigorous QA processes to maintain quality standards</li>
+                                                <li>Phase implementation to minimize disruption</li>
+                                                <li>Set clear metrics to measure success of new process</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 75% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 5 -->
+                    <div class="card revenue-card mb-3 impact-low">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 5: Structured Education</span>
+                            <div>
+                                <span class="model-status status-planning">Planning</span>
+                                <span class="risk-tag low-risk">Low Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Start paid pilot sessions with target of ₹5L per month recurring</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Start paid pilot</span>
+                                <span class="quarter-tag q3-tag">Q3: Expand modules</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹5L per month recurring</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model5-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model5-overview-tab" data-bs-toggle="pill" data-bs-target="#model5-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model5-risk-tab" data-bs-toggle="pill" data-bs-target="#model5-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model5-tabContent">
+                                    <div class="tab-pane fade show active" id="model5-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Creates a new revenue stream from educational content</li>
+                                            <li>Increases brand authority and customer engagement</li>
+                                            <li>Potential for upselling other services to course participants</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Content creation team</li>
+                                            <li>Learning management system</li>
+                                            <li>Budget: ₹8L for content development and platform</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 20%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model5-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Content development:</strong> Creating quality educational content is time-consuming</li>
+                                                <li><strong>Market saturation:</strong> Many free alternatives available in the market</li>
+                                                <li><strong>Pricing strategy:</strong> Difficulty finding the right price point for courses</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Repurpose existing content to reduce development time</li>
+                                                <li>Focus on niche topics where you have unique expertise</li>
+                                                <li>Offer tiered pricing with free introductory content</li>
+                                                <li>Leverage customer testimonials to build credibility</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 85% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 6 -->
+                    <div class="card revenue-card mb-3 impact-high">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 6: Subscription Plans</span>
+                            <div>
+                                <span class="model-status status-planning">Planning</span>
+                                <span class="risk-tag">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Design 3-tier model with goal of ₹10L MRR by Q4</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Design 3-tier model</span>
+                                <span class="quarter-tag q3-tag">Q3: Go live with NFC alerts</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹10L MRR by Q4</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model6-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model6-overview-tab" data-bs-toggle="pill" data-bs-target="#model6-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model6-risk-tab" data-bs-toggle="pill" data-bs-target="#model6-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model6-tabContent">
+                                    <div class="tab-pane fade show active" id="model6-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Predictable recurring revenue stream</li>
+                                            <li>Higher customer lifetime value</li>
+                                            <li>NFC technology provides competitive advantage</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Product management team</li>
+                                            <li>NFC technology implementation</li>
+                                            <li>Budget: ₹15L for development and technology</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 10%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model6-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Customer churn:</strong> Difficulty retaining subscribers long-term</li>
+                                                <li><strong>Technical complexity:</strong> NFC integration may be challenging</li>
+                                                <li><strong>Value perception:</strong> Customers may not see enough value in subscription tiers</li>
+                                                <li><strong>Payment processing:</strong> Recurring billing systems can be complex to implement</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Conduct customer research to design tiers based on real needs</li>
+                                                <li>Offer annual discounts to improve retention</li>
+                                                <li>Partner with established NFC providers to reduce technical risk</li>
+                                                <li>Implement robust billing system with dunning management</li>
+                                                <li>Create clear communication about subscription benefits</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 60% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 7 -->
+                    <div class="card revenue-card mb-3 impact-medium">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 7: DIY Tools (Freemium)</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag medium-risk">Medium Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Add export/report features with target of ₹2L per month upsell</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Add export features</span>
+                                <span class="quarter-tag q3-tag">Q3: Upsell advanced features</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹2L per month upsell</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model7-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model7-overview-tab" data-bs-toggle="pill" data-bs-target="#model7-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model7-risk-tab" data-bs-toggle="pill" data-bs-target="#model7-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model7-tabContent">
+                                    <div class="tab-pane fade show active" id="model7-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Freemium model attracts more users to the platform</li>
+                                            <li>Advanced features drive conversion to paid plans</li>
+                                            <li>Low customer acquisition cost</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Development team: 2 members for 1 month</li>
+                                            <li>UX improvements for upgrade prompts</li>
+                                            <li>Budget: ₹4L for feature development</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 50%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model7-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Conversion rates:</strong> Free users may not convert to paid plans</li>
+                                                <li><strong>Feature cannibalization:</strong> Free features might reduce need for paid version</li>
+                                                <li><strong>Support costs:</strong> Supporting free users can be expensive</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Implement data-driven approach to identify optimal feature gates</li>
+                                                <li>Create compelling premium features that provide clear value</li>
+                                                <li>Use automated support systems for free users</li>
+                                                <li>Implement usage limits to encourage upgrades</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 75% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 8 -->
+                    <div class="card revenue-card mb-3 impact-high">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 8: Certified Partner Program</span>
+                            <div>
+                                <span class="model-status status-planning">Planning</span>
+                                <span class="risk-tag">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Finalize structure with target of ₹15L onboarding/commission fees</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Finalize structure</span>
+                                <span class="quarter-tag q3-tag">Q3: Enroll 25 vendors</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹15L onboarding/commission fees</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model8-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model8-overview-tab" data-bs-toggle="pill" data-bs-target="#model8-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model8-risk-tab" data-bs-toggle="pill" data-bs-target="#model8-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model8-tabContent">
+                                    <div class="tab-pane fade show active" id="model8-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Creates ecosystem around your products</li>
+                                            <li>Generates revenue from certifications and partnerships</li>
+                                            <li>Expands market reach through partner networks</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Program management team</li>
+                                            <li>Certification development</li>
+                                            <li>Budget: ₹10L for program setup and marketing</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 25%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model8-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Partner recruitment:</strong> Difficulty attracting quality partners</li>
+                                                <li><strong>Quality control:</strong> Maintaining consistent service quality across partners</li>
+                                                <li><strong>Channel conflict:</strong> Partners may compete with direct sales</li>
+                                                <li><strong>Program management:</strong> Ongoing management can be resource-intensive</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Develop attractive partner benefits and incentives</li>
+                                                <li>Implement rigorous certification and quality standards</li>
+                                                <li>Create clear territory and account rules to prevent conflict</li>
+                                                <li>Build scalable program management systems</li>
+                                                <li>Start with pilot program with select partners</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 70% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 9 -->
+                    <div class="card revenue-card mb-3 impact-medium">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 9: Data Analytics as a Service</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag medium-risk">Medium Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Start collecting anonymized data with target of ₹20L/year from insights</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Start data collection</span>
+                                <span class="quarter-tag q3-tag">Q3: Design enterprise dashboard</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹20L/year from insights</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model9-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model9-overview-tab" data-bs-toggle="pill" data-bs-target="#model9-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model9-risk-tab" data-bs-toggle="pill" data-bs-target="#model9-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model9-tabContent">
+                                    <div class="tab-pane fade show active" id="model9-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Monetizes existing data assets</li>
+                                            <li>Provides valuable insights to customers</li>
+                                            <li>High-margin revenue stream once established</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Data engineering team</li>
+                                            <li>Analytics and visualization tools</li>
+                                            <li>Budget: ₹12L for infrastructure and development</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 35%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model9-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Data privacy:</strong> Ensuring proper anonymization and compliance</li>
+                                                <li><strong>Data quality:</strong> Inconsistent or poor quality data limits insights</li>
+                                                <li><strong>Market demand:</strong> Customers may not see value in purchased insights</li>
+                                                <li><strong>Technical infrastructure:</strong> Scalable data systems can be expensive</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Implement rigorous data governance and privacy protocols</li>
+                                                <li>Invest in data cleaning and validation processes</li>
+                                                <li>Conduct market research to identify valuable insights</li>
+                                                <li>Start with cloud-based solutions to control costs</li>
+                                                <li>Develop use cases demonstrating clear ROI for customers</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 65% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 10 -->
+                    <div class="card revenue-card mb-3 impact-high">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 10: OEM White-Labeling</span>
+                            <div>
+                                <span class="model-status status-planning">Planning</span>
+                                <span class="risk-tag">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Identify regional partners with target of ₹1Cr OEM deals</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Identify partners</span>
+                                <span class="quarter-tag q3-tag">Q3: Sign 2 OEMs</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹1Cr OEM deals</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model10-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model10-overview-tab" data-bs-toggle="pill" data-bs-target="#model10-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model10-risk-tab" data-bs-toggle="pill" data-bs-target="#model10-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model10-tabContent">
+                                    <div class="tab-pane fade show active" id="model10-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>High-value deals with significant revenue potential</li>
+                                            <li>Expands market reach through OEM partners</li>
+                                            <li>Builds long-term strategic partnerships</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Business development team</li>
+                                            <li>Legal support for partnership agreements</li>
+                                            <li>Budget: ₹8L for partnership development</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 15%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model10-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Partner selection:</strong> Choosing wrong partners can damage brand</li>
+                                                <li><strong>Integration complexity:</strong> Technical integration with partner systems</li>
+                                                <li><strong>Revenue sharing:</strong> Negotiating favorable terms can be challenging</li>
+                                                <li><strong>Resource allocation:</strong> Customization for partners can be resource-intensive</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Develop clear partner selection criteria and due diligence process</li>
+                                                <li>Create standardized API and integration framework</li>
+                                                <li>Consult with legal experts on partnership agreements</li>
+                                                <li>Implement scalable white-label solution to minimize customization</li>
+                                                <li>Start with non-exclusive agreements to maintain flexibility</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 60% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Model 11 -->
+                    <div class="card revenue-card mb-3 impact-medium">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Model 11: Certification Academy</span>
+                            <div>
+                                <span class="model-status status-progress">In Progress</span>
+                                <span class="risk-tag medium-risk">Medium Risk</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Finalize curriculum with target of ₹3L/quarter from certifications</p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="quarter-tag q2-tag">Q2: Finalize curriculum</span>
+                                <span class="quarter-tag q3-tag">Q3: Launch paid certification</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="target-badge">Target: ₹3L/quarter from certifications</span>
+                                <span class="toggle-details">Show Details <i class="fas fa-chevron-down"></i></span>
+                            </div>
+                            <div class="model-details">
+                                <ul class="nav nav-pills mb-3" id="model11-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="model11-overview-tab" data-bs-toggle="pill" data-bs-target="#model11-overview" type="button" role="tab">Overview</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="model11-risk-tab" data-bs-toggle="pill" data-bs-target="#model11-risk" type="button" role="tab">Risk Analysis</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="model11-tabContent">
+                                    <div class="tab-pane fade show active" id="model11-overview" role="tabpanel">
+                                        <h6>Impact Analysis:</h6>
+                                        <ul>
+                                            <li>Creates additional revenue stream from certifications</li>
+                                            <li>Enhances brand authority and industry recognition</li>
+                                            <li>Creates ecosystem of certified professionals</li>
+                                        </ul>
+                                        <h6>Resources Needed:</h6>
+                                        <ul>
+                                            <li>Subject matter experts</li>
+                                            <li>Certification platform</li>
+                                            <li>Budget: ₹6L for curriculum development and platform</li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Progress: 45%</small>
+                                    </div>
+                                    <div class="tab-pane fade" id="model11-risk" role="tabpanel">
+                                        <div class="risk-section">
+                                            <h6><i class="fas fa-exclamation-triangle"></i> Identified Risks:</h6>
+                                            <ul>
+                                                <li><strong>Curriculum development:</strong> Creating relevant and up-to-date content</li>
+                                                <li><strong>Market recognition:</strong> New certifications may not be valued by industry</li>
+                                                <li><strong>Exam integrity:</strong> Preventing cheating in online certifications</li>
+                                                <li><strong>Competition:</strong> Established certification providers may dominate market</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mitigation-section">
+                                            <h6><i class="fas fa-shield-alt"></i> Mitigation Strategies:</h6>
+                                            <ul>
+                                                <li>Partner with industry associations to enhance credibility</li>
+                                                <li>Develop practical, hands-on certification assessments</li>
+                                                <li>Implement robust online proctoring systems</li>
+                                                <li>Focus on niche areas where you have unique expertise</li>
+                                                <li>Offer digital badges that can be shared on professional networks</li>
+                                            </ul>
+                                        </div>
+                                        <div class="progress mt-3">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small>Risk Mitigation: 70% covered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts and Visualizations -->
+            <div class="col-lg-4">
+                <div class="chart-container mb-4">
+                    <h4 class="mb-3">Revenue Distribution</h4>
+                    <canvas id="revenueChart" height="250"></canvas>
+                </div>
+
+                <div class="chart-container mb-4">
+                    <h4 class="mb-3">Risk Assessment</h4>
+                    <canvas id="riskChart" height="250"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h4 class="mb-3">Risk vs. Reward Matrix</h4>
+                    <canvas id="matrixChart" height="250"></canvas>
+                </div>
+
+                <div class="chart-container mt-4">
+                    <h4 class="mb-3">Risk Mitigation Status</h4>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">High Risk Models: 70%</div>
+                    </div>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">Medium Risk Models: 85%</div>
+                    </div>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">Low Risk Models: 95%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 text-center text-muted">
+        <div class="container">
+            <p>Revenue Models Impact & Risk Analysis Dashboard | Last updated: June 2023</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup charts
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Marketplace', 'Subscription', 'OEM', 'Education', 'Other'],
+                    datasets: [{
+                        data: [50, 120, 100, 32, 34],
+                        backgroundColor: [
+                            '#4361ee',
+                            '#4cc9f0',
+                            '#7209b7',
+                            '#f72585',
+                            '#3a0ca3'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            const riskCtx = document.getElementById('riskChart').getContext('2d');
+            const riskChart = new Chart(riskCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['High Risk', 'Medium Risk', 'Low Risk'],
+                    datasets: [{
+                        label: 'Number of Models',
+                        data: [4, 5, 2],
+                        backgroundColor: [
+                            '#ff6b6b',
+                            '#ffb800',
+                            '#4cc9f0'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Models'
+                            }
+                        }
+                    }
+                }
+            });
+
+            const matrixCtx = document.getElementById('matrixChart').getContext('2d');
+            const matrixChart = new Chart(matrixCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Revenue Models',
+                        data: [
+                            {x: 85, y: 90, r: 15}, // Model 1
+                            {x: 75, y: 95, r: 20}, // Model 2
+                            {x: 30, y: 70, r: 10}, // Model 3
+                            {x: 40, y: 60, r: 12}, // Model 4
+                            {x: 20, y: 40, r: 8},  // Model 5
+                            {x: 80, y: 85, r: 18}, // Model 6
+                            {x: 50, y: 75, r: 14}, // Model 7
+                            {x: 70, y: 80, r: 16}, // Model 8
+                            {x: 45, y: 65, r: 11}, // Model 9
+                            {x: 90, y: 92, r: 22}, // Model 10
+                            {x: 35, y: 55, r: 9}   // Model 11
+                        ],
+                        backgroundColor: '#4361ee'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Revenue Potential (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Risk Level (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Revenue Potential: ${context.raw.x}%, Risk: ${context.raw.y}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Toggle model details
+            const toggleButtons = document.querySelectorAll('.toggle-details');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const details = this.parentElement.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (details.style.display === 'block') {
+                        details.style.display = 'none';
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                        this.innerHTML = 'Show Details <i class="fas fa-chevron-down"></i>';
+                    } else {
+                        details.style.display = 'block';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                        this.innerHTML = 'Hide Details <i class="fas fa-chevron-up"></i>';
+                    }
+                });
+            });
+
+            // Filter functionality
+            const quarterFilter = document.getElementById('quarterFilter');
+            const statusFilter = document.getElementById('statusFilter');
+            const riskFilter = document.getElementById('riskFilter');
+            const searchFilter = document.getElementById('searchModel');
+            const models = document.querySelectorAll('.revenue-card');
+
+            function filterModels() {
+                const quarterValue = quarterFilter.value;
+                const statusValue = statusFilter.value;
+                const riskValue = riskFilter.value;
+                const searchValue = searchFilter.value.toLowerCase();
+                
+                let visibleCount = 0;
+                
+                models.forEach(model => {
+                    const quarterTags = model.querySelectorAll('.quarter-tag');
+                    const statusTag = model.querySelector('.model-status');
+                    const riskTag = model.querySelector('.risk-tag');
+                    const modelName = model.querySelector('.card-header').textContent.toLowerCase();
+                    
+                    const quarterMatch = quarterValue === 'all' || 
+                        (quarterValue === 'q2' && quarterTags[0].classList.contains('q2-tag')) ||
+                        (quarterValue === 'q3' && quarterTags[1].classList.contains('q3-tag'));
+                    
+                    const statusMatch = statusValue === 'all' || 
+                        (statusValue === 'planning' && statusTag.classList.contains('status-planning')) ||
+                        (statusValue === 'progress' && statusTag.classList.contains('status-progress')) ||
+                        (statusValue === 'completed' && statusTag.classList.contains('status-completed'));
+                    
+                    let riskMatch = riskValue === 'all';
+                    if (riskValue === 'high') riskMatch = riskTag && riskTag.textContent === 'High Risk';
+                    if (riskValue === 'medium') riskMatch = riskTag && riskTag.textContent === 'Medium Risk';
+                    if (riskValue === 'low') riskMatch = riskTag && riskTag.textContent === 'Low Risk';
+                    
+                    const searchMatch = modelName.includes(searchValue);
+                    
+                    if (quarterMatch && statusMatch && riskMatch && searchMatch) {
+                        model.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        model.style.display = 'none';
+                    }
+                });
+                
+                document.getElementById('modelCount').textContent = `${visibleCount} Models`;
+            }
+            
+            quarterFilter.addEventListener('change', filterModels);
+            statusFilter.addEventListener('change', filterModels);
+            riskFilter.addEventListener('change', filterModels);
+            searchFilter.addEventListener('input', filterModels);
+        });
+    </script>
+</body>
+</html>
